@@ -1,53 +1,53 @@
+#PYTHON
+https://cctc.cybbh.io/students/students/latest/Day_0_Setup.html
 
-##https://cctc.cybbh.io/students/students/latest/Day_0_Setup.html
 
-
-#REPL 
+REPL 
 student@xxx ~ python3
 or 
 specify infront of command 
 or 
 in VIM #!/usr/bin/python3
 
-#lists, tuples
+lists, tuples
 
-#index starts furhtest to the left at 0
+index starts furhtest to the left at 0
 
-##Converting
+Converting
 int(myvar)
 float(myvar)
 str(myvar)
 newvar = int(myvar)
 
-#30 / 3 = 10.0 ~ float --- division
+30 / 3 = 10.0 ~ float --- division
 30 // = 10 ~ int --- integer division
 2 ** 2 --- exponents
 
 
-#.format(,)
+.format(,)
 name = dylan 
 
 list(name)
 d,y,l,a,n
 
-#"".join(name)
+"".join(name)
 
-#.split()
+.split()
 
 "192.100.10.90".split(".")[2]
 	10
 
-#"dylan.mills@usmc.mil".replace("@",".")
+"dylan.mills@usmc.mil".replace("@",".")
 'dylan.mills.usmc.mil
 
-#"       hello      ".strip()
+"       hello      ".strip()
 'hello'
 
-#"dylan".strip(d)
+"dylan".strip(d)
 'ylan'
 
 
-#len("aslkdf;lasjf;lasd")
+len("aslkdf;lasjf;lasd")
  25
  
  
