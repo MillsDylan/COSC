@@ -87,5 +87,18 @@ x = datetime.datetime.now()
 print(x.strftime("%c"))
 	
 	
+  FOR LOOPS
   
-  
+  for item in iterable:
+  	do stuff
+	
+
+list(range(0,10,2))
+	range(start,stop,step)
+	
+List slicing
+sequence[start:stop:step
+
+
+List Comprehension
+my_list = [ valueExpression for controlVariable in iterator whereClause ]
