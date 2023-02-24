@@ -20,7 +20,7 @@ https://cctc.cybbh.io/students/students/latest/Day_0_Setup.html
 - str(myvar)  
 - newvar = int(myvar)  
 
-### Math  
+## Math  
 30 / 3 = 10.0 ~ float --- division  
 30 // = 10 ~ int --- integer division  
 2 ** 2 --- exponents  
@@ -44,19 +44,31 @@ print(Hello {}! {}, will you be arriving by {}? .format(name,greeting,time))
 >>>'dylan.mills.usmc.mil'.split('.')
 'dylan, mills, usmc, mil
 ```  
-
-**Creating varable containing contents of a list  (after being split)**
+## List Modiication
+*Creating varable containing contents of a list  (after being split)*
 ```
 >>> l = list(s)  
 >>> l  
 ['h', 'e', 'l', 'l', 'o']  
 ```
-**Modifying the list**
+hello >> jello   --- *this can occur because lists are mutable(strings are not mutable)*
 ```
 >>> l[0] = 'j'
 >>> l
 ['j', 'e', 'l', 'l', 'o']
 ```
+Create list
+```
+>>> a = [1,2,3,4,5]
+```
+Swap first and last element
+```
+>>> a[0], a[-1] = a[-1], a[0]
+>>> a
+[1, 2, 3, 4, 5]
+```
+
+
 
 **.join()**
 ```
@@ -130,7 +142,7 @@ else:
 | logical OR | or |
 | logical NOT | not |  
 
-**Defining Function** 
+**Defining a Function**
 ```
 def multiply(a, b):
   return a * b
@@ -162,5 +174,76 @@ Reverse sequence
 ```
 primes[::-1]
 ```
-**List Comprehension**
+## List Comprehension
 *Come back to this topic in free time*
+
+## Bit manipulation
+**Bin() Format()**
+```
+>>> a = 42
+----------------
+>>> bin(a)
+'0b101010'
+----------------
+>>> format(a,'#b') ---> *'#'Gives a prefix*
+'0b101010'
+----------------
+>>> format(a,'b') ---> *no prefix*
+'101010'
+----------------
+>>> format(a,'0>8b') ---> *converted to a binary string, zero-filled, right aligned, width of 8*
+'00101010'
+```
+Add 1 to the integer 'a'
+```
+>>> l = list(bin(a))
+>>> l[-1] = '1'
+>>> a = int(''.join(l),base=2) ---> binary string literal, since its a string, base must be specified
+>>> a
+43
+```
+**ord()** -- turn char into decimal value
+```
+>>>ord(a)
+97
+```
+## Dictionary
+```
+myDict = {}
+for i in myStr:
+	if i in myDict:
+		myDict[i] += 1 
+	else: 
+		myDict[i] = 1
+```
+
+**variable length argument**
+	def calc_you_later(*args):
+		return sum(args)
+
+###  File IO
+```
+with open('test.txt','w) as fp:
+```
+```
+lines='hello\n','name\n','is\n'
+fp.writelines(lines)
+hello
+name
+is
+```
+**adding a newline terminator**
+```
+for item in myVar:
+	fp.write(str(item)+'\n')
+```
+copying to a file
+```
+with open('test.txt') as source, open ('copy.txt', 'w') as dest:
+	dest.write(source.read())       ----> reading source file and writing to source file
+```
+
+
+
+
+
