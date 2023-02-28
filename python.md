@@ -260,3 +260,81 @@ with open('test.txt') as source, open ('copy.txt', 'w') as dest:
 
 
 .isdigit()
+
+
+
+
+
+
+
+
+
+
+# 10.15. Chapter Assessment
+
+**The textfile, travel_plans.txt, contains the summer travel plans for someone with some commentary.   
+Find the total number of characters in the file and save to the variable num.**
+```
+with open ('travel_plans.txt', 'r') as fp:
+    num = len(fp.read())
+ ``` 
+ **We have provided a file called emotion_words.txt that contains lines of words that describe emotions. Find the total number of words in the file and assign this value to the variable num_words.**
+ ```
+ with open ('emotion_words.txt', 'r') as fp:
+    w = fp.read()
+    r = w.split()
+    num_words = len(r)
+ ```
+ **Assign to the variable num_lines the number of lines in the file school_prompt.txt.**
+ ```
+ with open ('school_prompt.txt', 'r') as fp:
+    lines = fp.readlines()
+    num_lines = len(lines)
+ ```
+ **Assign the first 30 characters of school_prompt.txt as a string to the variable beginning_chars.**
+ ```
+ with open ('school_prompt.txt', 'r') as fp:
+    beginning_chars = fp.read(30)
+ ```
+ **Challenge: Using the file school_prompt.txt, assign the third word of every line to a list called three.**
+ ```
+ three = []
+with open ('school_prompt.txt', 'r') as fp:
+    for i in fp.readlines():
+            three.append(i.split()[2])
+```
+**Challenge: Create a list called emotions that contains the first word of every line in emotion_words.txt.**
+```
+emotions = []
+with open ('emotion_words.txt', 'r') as fp:
+    for i in fp.readlines():
+            emotions.append(i.split()[0])
+```
+**Assign the first 33 characters from the textfile, travel_plans.txt to the variable first_chars.**
+```
+with open ('travel_plans.txt', 'r') as fp:
+        first_chars = fp.read()[:33]
+```
+**Challenge: Using the file school_prompt.txt, if the character ‘p’ is in a word, then add the word to a list called p_words.**
+```
+p_words = []
+with open ('school_prompt.txt', 'r') as fp:
+    lines = fp.read()
+    for i in lines.split():
+            if 'p' in i:
+                    p_words.append(i)
+                    
+```
+Write a function that takes in a string of one or more words, and returns the same string, but with all five or more letter words reversed (Just like the name of this Kata). Strings passed in will consist of only letters and spaces. Spaces will be included only when more than one word is present.
+
+Examples:
+```
+spinWords( "Hey fellow warriors" ) => returns "Hey wollef sroirraw" 
+spinWords( "This is a test") => returns "This is a test" 
+spinWords( "This is another test" )=> returns "This is rehtona test"
+```
+Finished work
+```
+def spin_words(sen):
+    return(str(' '.join([i[::-1]  if (len(i) >= 5) else i for i in sen.split(' ')])))
+```      
