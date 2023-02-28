@@ -243,7 +243,20 @@ with open('test.txt') as source, open ('copy.txt', 'w') as dest:
 	dest.write(source.read())       ----> reading source file and writing to source file
 ```
 
+## counting duplicates
+	
+```	
+	string = 'klasjdf;lasj;flsjda'
+	newlist = list(string)
+	mydict = {}
+	
+	for x in newlist:
+		if x not in mydict:
+			mydict[x] = 1
+		else:
+			mydict[x] =+ 1
+	print(mydict)
+```
 
 
-
-
+.isdigit()
