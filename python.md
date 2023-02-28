@@ -260,15 +260,15 @@ with open('test.txt') as source, open ('copy.txt', 'w') as dest:
 
 
 .isdigit()
-
-
-
-
-
-
-
-
-
+   
+     
+    
+    
+    
+    
+    
+   
+    
 
 # 10.15. Chapter Assessment
 
