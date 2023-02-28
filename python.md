@@ -338,3 +338,60 @@ Finished work
 def spin_words(sen):
     return(str(' '.join([i[::-1]  if (len(i) >= 5) else i for i in sen.split(' ')])))
 ```      
+# Random
+NUMBER 6 on ctfd
+
+```
+def q6(catalog, order):
+    total =[]
+    for key in catalog:
+        for item in order:
+            if item[0] == key:
+                total.append(catalog[key] * item[1])
+    return sum(total)
+   ``` 
+    
+ ---------------------------------------------------------------------------------------------------------------
+ ```   
+    
+    total = 0
+    for product, quantity in order:
+    	total += catalog[product] * quantity
+    return total
+    ```
+    
+    
+  --------------------------------------------------------------------------------------------------------------
+  
+  
+  
+  return sum(catalog[product]*quantity for product,quantity in order
+
+
+NUMBER 5 on 2nd CTFd```
+return [x for x in range(0,limit + 1, integer) if x%2 == 0]
+```
+
+
+
+## counting duplicates
+	
+	```
+	
+	newlist = list(strng)
+	mydict = {}
+	
+	for x in newlist:
+		if x not in mydict:
+			mydict[x] = 1
+		else:
+			mydict[x] =+ 1
+	print(mydict)
+	
+	```
+	
+	```
+	open both files
+with open('infile','r') as file1, open('outfile','w') as file2:
+      
+```
