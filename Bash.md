@@ -20,12 +20,12 @@ explainshell.com ---- # explains the command and options
 find -mtime 2  
 find -mmin -60  
 
--man pages
--absolute/relative paths
--mkdir,touch,ls,rm,rmdir,cp,mv
--cat,ps,free,kill,killall
--cut
--commmand chaining operators
--output redirection
+- man pages
+- absolute/relative paths
+- mkdir,touch,ls,rm,rmdir,cp,mv
+- cat,ps,free,kill,killall
+- cut
+- commmand chaining operators
+- output redirection
 
 
