@@ -71,6 +71,8 @@ sed -i '<expression>' file.txt
 sed 's/FINDPATTERN/REPLACEPATTERN/g' #g is global   
 ### conditionals
 ```
+   #!/bin/bash
+   
    if [[ condition ]]; then
       commands
    elif [[ condition ]]; then
@@ -79,12 +81,12 @@ sed 's/FINDPATTERN/REPLACEPATTERN/g' #g is global
       commands
    fi
 ```
+   ip reg
+   ([0-9]{3}\.){3}[0-9]+
    
    
    
-   
-   
-   
+awk -F: '($3 !~ "[0-3]") && ($7 == "/bin/bash") {print $1}' $HOME/passwd > $HOME/SED/names.txt   
    
    
    
