@@ -35,28 +35,74 @@ find $HOME/1123 -iname "*[^~].txt" -exec cp {} $HOME/CUT \ ;
 - commmand chaining operators
 - output redirection  
   
-**conditionals  **
-**command substitution**  
-**commands  **
-**alais  **
-**sort**  <|____sort and uniq go together  {sort before you use uniq}   
-**uniq**  <| -c{count}   -u {display only unique lines} -d {display only duplicate lines}   
-**awk**  awk [options] 'selection _criteria {action}' input-file > output-file   
+** conditionals  **  
+** command substitution **    
+** commands  **  
+** alais  **  
+## sort   
+<|____sort and uniq go together  {sort before you use uniq}   
+sort -k2n <--- delimiter for column {filename}
+
+## uniq   
+<| -c{count}   -u {display only unique lines} -d {display only duplicate lines}   
+## awk   
+awk [options] 'selection _criteria {action}' input-file > output-file   
 awk -F: '{print $1}'   
    - displays 1st field delimited by a ":"  
 awk '{print $2}'  
    - displays 2nd field: delimited automatically by whitespace  
  awk -F: '($3 == 0) {print $1}' /etc/passwd  
+ $NF -last field  
+ awk -v {-v option is to import bash variables}   
+ egrep "/bin/false|/bin/bash" /etc/passwd | awk -F: '{OFS=":"}($7="/bin/bash"){print $1}'        
+ echo "python is better than Bash" | awk '{print $NF, $2,$2,$3,$4,$1}'
+ echo "python is better than Bash" | awk '{$1="Marines";$2="are";$5="soldiers",print}'
    
-**sed --stream editor**   
+## sed --stream editor   
+
 sed 's/abc/123/'    
    - Replace first occurrence of abc in every line with 123  
 sed 's/abc/123/g'  
    - replace every occurrenc of abc in every line with 123  
 sed '/hello/d'  
    - delethe the 'hello' lines. output everything else  
-sed -i '<expression>' file.txt  
-   -"sed inplace" to make changes permanent in file.txt  
+sed -i '<expression>' file.txt   
+   -the - "sed inplace" to make changes permanent in file.txt  **cannot be a command piped to sed
+sed 's/FINDPATTERN/REPLACEPATTERN/g' #g is global   
+### conditionals
+```
+   if [[ condition ]]; then
+      commands
+   elif [[ condition ]]; then
+      commands
+   else
+      commands
+   fi
+```
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
