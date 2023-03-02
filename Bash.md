@@ -19,7 +19,12 @@ explainshell.com ---- # explains the command and options
   **Find Find Find Find Find Find Find Find Find Find Find Find**
 find -mtime 2  
 find -mmin -60  
+find $HOME/1123 -iname "*.txt" ! -iname "*~*  
+find $HOME/1123 -iname "*.txt" | egrep -v "*~.txt"
+find $HOME/1123 -iname "*[^~].txt" 
+find $HOME/1123 -iname "*[^~].txt" -exec cp {} $HOME/CUT \;
 
+  
 - man pages
 - absolute/relative paths
 - mkdir,touch,ls,rm,rmdir,cp,mv
@@ -29,7 +34,14 @@ find -mmin -60
 - cut
 - commmand chaining operators
 - output redirection  
-
-
+  
+conditionals  
+command substitution  
+commands  
+alais  
+sort  <|____sort and uniq go together  
+uniq  <|  
+awk  
+sed  
 
 
