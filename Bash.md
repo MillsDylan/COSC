@@ -69,6 +69,8 @@ sed '/hello/d'
 sed -i '<expression>' file.txt   
    -the - "sed inplace" to make changes permanent in file.txt  **cannot be a command piped to sed
 sed 's/FINDPATTERN/REPLACEPATTERN/g' #g is global   
+   
+   
 ### conditionals
 ```
    #!/bin/bash
