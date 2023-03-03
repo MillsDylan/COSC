@@ -92,9 +92,16 @@ awk -F: '($3 !~ "[0-3]") && ($7 == "/bin/bash") {print $1}' $HOME/passwd > $HOME
    
    
    
-   
-   
-   
+## Functions
+  ```
+   #!/bin/bash
+
+hello_world () {
+   echo 'hello, world'
+}
+
+hello_world
+   ```
    
    
    
