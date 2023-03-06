@@ -181,11 +181,19 @@ counter=1
  ```  
 ### For loop w/counter  
  ```    
- countloop () {  
+countloop () {  
 for ((x=0;x<=5;x++))                                                           
 do   
 echo "\$x is equal to $x"  
 done  
 }
  ```  
+
+
+sdgfhsd
+                    [source,bash]
+                    ----
+                    code blcok
+                    ----
+                    
                         
