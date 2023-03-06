@@ -41,7 +41,10 @@ awk '{print $2}'
  egrep "/bin/false|/bin/bash" /etc/passwd | awk -F: '{OFS=":"}($7="/bin/bash"){print $1}'        
  echo "python is better than Bash" | awk '{print $NF, $2,$2,$3,$4,$1}'
  echo "python is better than Bash" | awk '{$1="Marines";$2="are";$5="soldiers",print}'
-   
+ awk -F: '($3 !~ "[0-3]") && ($7 == "/bin/bash") {print $1}' $HOME/passwd > $HOME/SED/names.txt  
+ find / -iname "*.bin" 2>/dev/null | tail | awk 'BEGIN{FS="/";OFS="/"}{NF=NF-1;print $0}'
+ 
+ 
 ## sed --stream editor   
 
 sed 's/abc/123/'    
@@ -72,7 +75,7 @@ sed 's/FINDPATTERN/REPLACEPATTERN/g' #g is global
    
    
    
-awk -F: '($3 !~ "[0-3]") && ($7 == "/bin/bash") {print $1}' $HOME/passwd > $HOME/SED/names.txt   
+   
    
    
    
@@ -99,13 +102,55 @@ student@lin-ops:~$ Jo
 var=$(command)
    
    **Rev** --> reverses the output
+ ```
+ #!/bin/bash
  
-   
-   
-   
-   
-   
-   
-   
+ File=$1
+ User=$2
+ id=$3
+ DIR="/home/$User"
+ SHELLY='/bin/bash'
+ lastline-$(tail -n1 $File)
+ 
+ ```
+ echo "$lastline" | awk -F: -v uu=$User -v ii=$id -v dd=$DIR -v ss=$SHELLY {'OFS=":"}{$1=uu;$3=$4=ii;$6=dd;$NF=ss;print}' 
+ ```
+ 
+ 
+## LOOPS
+ ```
+ #!/bin/bash
+
+for i in {1..5}; 
+do
+    echo $i
+done
+ ```
+ ```
+ if [[ <condition> ]];then
+  break
+ fi
+ ```  
+  ``` 
+   #!/bin/bash
+counter=1
+ while [[ $counter -le 10 ]]
+ do 
+  echo $counter
+    ((counter++))
+ done
+ echo "All done!"
+   ```
+ ``` 
+   #!/bin/bash
+counter=1
+ until [[ $counter -gt 10 ]]
+ do 
+  echo $counter
+    ((counter++))
+ done
+ echo "All done!"
+   ```
+ 
    
    
