@@ -177,13 +177,5 @@ counter=1
  echo "team rocket blasts off again" 
  }
  ```  
- 
-### For loop w/counter  
- ```    
-countloop () {  
-for ((x=0;x<=5;x++))                                                           
-do   
-echo "\$x is equal to $x"  
-done  
-}
- ```  
+
+                    
