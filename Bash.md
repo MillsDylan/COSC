@@ -95,10 +95,11 @@ hello_world
    $sub5
 student@lin-ops:~$ Jo
    ```
-   
+ ## command substitution  
 var=$(command)
    
-   
+   **Rev** --> reverses the output
+ 
    
    
    
