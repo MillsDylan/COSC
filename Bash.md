@@ -164,9 +164,7 @@ counter=1
  done
  echo "all done!"
  }
- 
  range  
-
 ```  
 ### Range loop that counts down  
  ```  
@@ -179,6 +177,7 @@ counter=1
  echo "team rocket blasts off again" 
  }
  ```  
+ 
 ### For loop w/counter  
  ```    
 countloop () {  
@@ -188,12 +187,3 @@ echo "\$x is equal to $x"
 done  
 }
  ```  
-
-
-sdgfhsd
-                    [source,bash]
-                    ----
-                    code blcok
-                    ----
-                    
-                        
