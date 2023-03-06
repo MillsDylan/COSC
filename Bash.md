@@ -165,24 +165,27 @@ counter=1
  echo "all done!"
  }
  
- range
-   ```
-### Range loop that counts down
- ```
- rocket () {
- for value in {10..1}
- do 
-      echo $value
-      sleep 1
- done 
+ range  
+
+```  
+### Range loop that counts down  
+ ```  
+ rocket () {  
+ for value in {10..1}  
+ do   
+      echo $value  
+      sleep 1  
+ done   
  echo "team rocket blasts off again" 
  }
- ```
- ### For loop w/counter
- ```
- countloop() {
-    for ((x=0;x<=5;x++))
-    do 
-       echo "\$x is equal to $x"
-    done
- ```
+ ```  
+### For loop w/counter  
+ ```    
+ countloop () {  
+for ((x=0;x<=5;x++))                                                           
+do   
+echo "\$x is equal to $x"  
+done  
+}
+ ```  
+                        
