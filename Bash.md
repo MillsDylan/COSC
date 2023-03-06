@@ -179,3 +179,115 @@ counter=1
  ```  
 
                     
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+# CHALLENGES
+
+Using Brace-Expansion, create the following directories within the $HOME directory:
+1123,1134,1145,1156 
+```
+ mkdir $HOME/11{23,34,45,56}
+ ```
+ Use Brace-Expansion to create the following files within the $HOME/1123 directory. You may need to create the $HOME/1123 directory. Make the following files, but utilze Brace Expansion to make all nine files with one touch command.:
+ 1.txt,2.txt,3.txt,4.txt,5.txt,6~.txt,7~.txt,8~.txt,9~.txt
+ ```
+ touch $HOME/1123/{1,2,3,4,5,6~,7~,8~,9~}.txt
+ ```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
