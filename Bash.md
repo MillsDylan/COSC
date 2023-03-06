@@ -112,12 +112,16 @@ var=$(command)
  SHELLY='/bin/bash'
  lastline-$(tail -n1 $File)
  
- ```
  echo "$lastline" | awk -F: -v uu=$User -v ii=$id -v dd=$DIR -v ss=$SHELLY {'OFS=":"}{$1=uu;$3=$4=ii;$6=dd;$NF=ss;print}' 
  ```
  
  
-## LOOPS
+ 
+ 
+ 
+ 
+  ## LOOPS
+ 
  ```
  #!/bin/bash
 
@@ -151,6 +155,34 @@ counter=1
  done
  echo "All done!"
    ```
+ #### Range Loop
+ ```
+   range () {
+     for value in {1..5}
+  do  
+      echo $value
+ done
+ echo "all done!"
+ }
  
-   
-   
+ range
+   ```
+### Range loop that counts down
+ ```
+ rocket () {
+ for value in {10..1}
+ do 
+      echo $value
+      sleep 1
+ done 
+ echo "team rocket blasts off again" 
+ }
+ ```
+ ### For loop w/counter
+ ```
+ countloop() {
+    for ((x=0;x<=5;x++))
+    do 
+       echo "\$x is equal to $x"
+    done
+ ```
