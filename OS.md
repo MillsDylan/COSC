@@ -119,16 +119,59 @@ Click *OK*
 
 **Use "psexec -s -i regedit" from administrator cmd.exe to view the SAM**
 
+#### Commands
+
+-PS C:\Windows\system> Remove-Item -path Registry::HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce 
+-PS C:\Windows\system> Get-ItemProperty -Path Registry::HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce 
+
+-The majority of registry keys that are relevant to attackers and defenders are in the HKLM hive 
+
+-SAM - security accounts manager (SAM) - local accounts and groups; restricted access %SystemRoot%\system32\config\Sam 
+
+new-psdrive -name fileserver -psprovider filesysten -root "\\file-server\warrior share"
+**find usb**  
+reg query hkey_local_machine\system\currentcontrolset\enum\usbstor
+### Alternate Data stream
+set-content .\coffe.txt -value " olson's social security number is 123-43-2341 " -stream secret.info
+cat coffee.txt -stream secret.info
+get-item coffee.txt -stream *
+add-content -path coffee.txt -value 'dim oshell' -stream 'secret.vbs'
+
+**Find alternate data streams**  
+gci -r | % {gi $_.FullName -stream *} | where stream -ne ':$DATA'11.   
+**Read alternate stream of data**  
+gc '.\The Fortune Cookie' -stream none  
 
 
+### Linux
+------------------------------------------------------------------------------------------------------------  
+
+**INFO**
+ssh -h andy.dwyer@10.3.0.2 garviel@10.3.0.6
+
+#### Commands
+hostname || uname -a ---name of the host
+whoami                 ---shows who you are logged on as
+w || who             ---show who else is logged on
+ifconfig || ip addr    ---displays network interfaces and configured IP addresses
+ip neigh || arp      ---displays MAC addresses of devices observed on the network
+ip route || route      ---shows where packets will be routed for a particular destination address
+netstat (-anop) || ss---will show network connections or listening ports
+nft list tables || iptables -L ---firewall rules
+sudo -l                ---displays commands user can run as su
+**permissions**
+{a}{b} {c} {d}
+ x-xxx-xxx-xxx
+a-file type
+b-user/owner
+c-group
+d-others
+4-read
+2-write
+1-execute
 
 
-
-
-
-
-
-
+find /-perm /2000 2> /dev/null -exec ls -la {} \;
 
 
 
