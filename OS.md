@@ -3,6 +3,7 @@ http://10.50.21.56:8000/
 STACK# ~3  10.50.26.137 
 DYMI-23-003
 DYMI-23-003
+ssh -J andy.dwyer@10.50.26.137 garviel@10.3.0.6
 
 INFO 
 ------------------------------------------------------------------------------------------------------------
@@ -172,6 +173,181 @@ d-others
 
 
 find /-perm /2000 2> /dev/null -exec ls -la {} \;
+
+
+## Windows Boot Process
+
+    BIOS:
+
+Master Boot Record
+
+bootmgr
+
+BCD
+
+OSLoader
+
+    Winload.exe, Winresume.exe
+
+Ntoskrnl.exe
+
+    UEFI:
+
+GPT
+
+bootmgrfw.efi
+
+BCD
+
+OSLoader
+
+    Winload.efi, Winresume.efi
+
+Ntoskrnl.exe
+
+-----------------------------------------------------------------------------------------
+
+## See what type of system on BIOS vs UEFI
+
+-----------------------------------------------------------------------------------------
+
+Get-Content C:\Windows\Panther\setupact.log | select-string "Detected boot environment"
+
+bcdedit | findstr /i winload
+
+    .exe is BIOS .efi is UEFI
+
+GUI: System information
+
+    BIOSMODE = Legacy (BIOS)
+
+    
+
+    
+
+-----------------------------------------------------------------------------------------
+
+## BCDEDIT - CMD prompt
+
+-----------------------------------------------------------------------------------------
+
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bcdedit
+
+https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/boot-options-identifiers?source=recommendations
+
+bcdedit /?
+
+Make Backup
+
+bcdedit /export C:\coffee_bcd
+
+Restore
+
+bcdedit /import C:\coffee_bcd
+
+#### Edit Value
+
+bcdedit /set {current} description "Windows 11 -Coffee Box"
+
+bcdedit /deletevalue {current} "element"
+
+#### Create New Partition
+
+bcdedit /create {ntldr} /d "Windows XP Pro SP3 - Tea Sucks"
+
+Specify Partition
+
+bcdedit /set {ntldr} device partition=C:
+
+Specify Path to ntldr
+
+bcdedit /set {ntldr} path \ntldr
+
+Specify Order to be displayed in
+
+bcdedit /displayorder {ntldr} /addfirst
+
+Delete partition
+
+bcdedit /delete {ntldr} /f      (/f for force)
+
+### Linux Boot Process
+
+**INFO**
+systemV = bombadil - Minas tirith ~ oldest box ~ 
+systemD = garviel - Terra ~newest box ~ 
+
+sysv 0,1,2,3,4,5,6
+sysd 
+
+
+
+
+
+
+
+Big Mike Got Killed In Russia 1 (SysV)  
+    -BIOS -Basic Input Output System
+
+    -MBR -Master Boot Record
+
+    -GRUB -Grand Unified Bootloader
+
+    -Kernel
+
+    -Init (SysV or SystemD)
+
+    -Runlevels
+**MBR Image**
+https://git.cybbh.space/os/public/raw/master/images/mbrPartitionTable.png
+
+lsblk
+sudo xxd -l 512 -g 1 /dev/vda
+sudo dd if/dev/vda of=MBRCopy bs=1 count=512
+**see system callls from when a command is run**
+sudo strace <command>
+sudo lsmod
+cat /etc/inittab  ###finding the default runlevel
+ls -lisa /lib/systemd/system/default.target
+ls -l /lib/systemd/system
+ls -l /etc/systemd/system
+ls -l /run/systemd/generator
+ls -l /etc/rc3.d --- run level scripts
+ls -l /etc/rc1.d --/
+cat /etc/systemd/system/display-manager.service | tail -13
+
+systemctl cat graphical.target
+systemctl show -p wants graphical.target
+systemctl list-unit-files
+systemctl list-dependencies graphical.target
+ls -l /sbin/init
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
