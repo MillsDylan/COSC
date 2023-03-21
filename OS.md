@@ -324,18 +324,30 @@ ls -l /sbin/init
 
 
 # Windows processes  
-
+**Echotrail.io**
 - Discovering Hidden Processes, Services, and finding Normal and Abnormal Activity   
 Get-Process SMSS,CSRSS,LSASS | Sort -Property Id  
 Get-Process | Select Name, Id, Description | Sort -Property Id  
 Get-Process | Select Name, Id, Path  
 Get-Ciminstance Win32_service | Select Name, Processid, Pathname  
-Get-Process | Select Name, Priorityclass
-Tasklist /m
-
-
-
-
+Get-Process | Select Name, Priorityclass  
+get-process chrome | foreach {$a} {$_.modules} | more  
+get-process chrome | foreach {$a} {$_.modules} | where-object modulename -like '*chrome*' | more  
+get-process -name "chrome" | select-object -expandproperty modules | more  
+-Display service information for each process without truncation    
+tasklist /svc    
+Tasklist /m  
+tasklist /m /fi "IMAGENAME eq chrome.exe"  
+tasklist /fo:{table|list|csv}`  
+**services**  
+-cmd  
+scqueryx type=service state=inactive  
+scqueryx type=service state=active  
+-pwsh  
+get-service | where-object {$_.status -eq "running"}  
+psservice
+-gui  
+services.msc  
 
 
 
