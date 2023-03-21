@@ -299,31 +299,102 @@ Big Mike Got Killed In Russia 1 (SysV)
 
     -Runlevels
 **MBR Image**
-https://git.cybbh.space/os/public/raw/master/images/mbrPartitionTable.png
+https://git.cybbh.space/os/public/raw/master/images/mbrPartitionTable.png  
 
-lsblk
-sudo xxd -l 512 -g 1 /dev/vda
-sudo dd if/dev/vda of=MBRCopy bs=1 count=512
-**see system callls from when a command is run**
-sudo strace <command>
-sudo lsmod
-cat /etc/inittab  ###finding the default runlevel
-ls -lisa /lib/systemd/system/default.target
-ls -l /lib/systemd/system
-ls -l /etc/systemd/system
-ls -l /run/systemd/generator
-ls -l /etc/rc3.d --- run level scripts
-ls -l /etc/rc1.d --/
-cat /etc/systemd/system/display-manager.service | tail -13
+lsblk  
+sudo xxd -l 512 -g 1 /dev/vda  
+sudo dd if/dev/vda of=MBRCopy bs=1 count=512  
+**see system callls from when a command is run**  
+sudo strace <command>  
+sudo lsmod  
+cat /etc/inittab  ###finding the default runlevel  
+ls -lisa /lib/systemd/system/default.target  
+ls -l /lib/systemd/system  
+ls -l /etc/systemd/system  
+ls -l /run/systemd/generator  
+ls -l /etc/rc3.d --- run level scripts  
+ls -l /etc/rc1.d --/  
+cat /etc/systemd/system/display-manager.service | tail -13  
 
-systemctl cat graphical.target
-systemctl show -p wants graphical.target
-systemctl list-unit-files
-systemctl list-dependencies graphical.target
-ls -l /sbin/init
+systemctl cat graphical.target  
+systemctl show -p wants graphical.target  
+systemctl list-unit-files  
+systemctl list-dependencies graphical.target  
+ls -l /sbin/init  
+
+
+# Windows processes  
+
+- Discovering Hidden Processes, Services, and finding Normal and Abnormal Activity   
+Get-Process SMSS,CSRSS,LSASS | Sort -Property Id  
+Get-Process | Select Name, Id, Description | Sort -Property Id  
+Get-Process | Select Name, Id, Path  
+Get-Ciminstance Win32_service | Select Name, Processid, Pathname  
+Get-Process | Select Name, Priorityclass
+Tasklist /m
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# UAC 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Sysinternals
 
 
 
