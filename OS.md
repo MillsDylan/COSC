@@ -14,6 +14,11 @@ Methods are things you can do to an object
 Properties are information about an object  
   
 ------------------------------------------------------------------------------------------------------------
+### Types of Persistence
+$profiles
+Reg run keys 
+Scheduled tasks
+
 ### Examples
   
 gps | get-member | where-object {$_.Membertype -match "Method"}  
@@ -334,6 +339,7 @@ Get-Process | Select Name, Priorityclass
 get-process chrome | foreach {$a} {$_.modules} | more  
 get-process chrome | foreach {$a} {$_.modules} | where-object modulename -like '*chrome*' | more  
 get-process -name "chrome" | select-object -expandproperty modules | more  
+get-process | select name, priorityclass
 -Display service information for each process without truncation    
 tasklist /svc    
 Tasklist /m  
@@ -348,19 +354,18 @@ get-service | where-object {$_.status -eq "running"}
 psservice
 -gui  
 services.msc  
+### Scheduled Tasks
+-View all properties of the first scheduled task.
+Get-ScheduledTask | Select * | select -First 1
+-gui
+taskschd.msc
 
+### Network Connections
+Get-NetTCPConnection -State Established
+netstat -anob
 
-
-
-
-
-
-
-
-
-
-
-
+system processes run from C:\Windows\System32
+users and 3rd party run from C:\"program files"
 
 
 
@@ -368,30 +373,11 @@ services.msc
 
 
 # UAC 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-Color-coded consent prompts
+Red - Application or publisher blocked by group policy
+Blue & gold - Administrative application
+Blue - Trusted and Authenticode signed application
+Yellow - Unsigned or signed but not trusted application
 
 
 
@@ -407,17 +393,18 @@ services.msc
 
 
 # Sysinternals
-
-
-
-
-
-
-
-
-
-
-
+**mounting sysinternals**   
+net use * http://live.sysinternals.com  
+./procmon.exe
+Procmon 
+Autoruns
+Procexp
+TCPView
+PsExec --X
+PsLoggedon
+LogonSessiosn
+PsList --X
+PsInfo
 
 
 
