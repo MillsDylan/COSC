@@ -382,16 +382,6 @@ Yellow - Unsigned or signed but not trusted application
 
 
 
-
-
-
-
-
-
-
-
-
-
 # Sysinternals
 **mounting sysinternals**   
 net use * http://live.sysinternals.com  
@@ -407,6 +397,101 @@ PsList --X
 PsInfo
 
 
+# Linux Process Validity
+    -There are two primary processes after startup:
+
+           +For kernel-space processes [kthreadd] ( PID = 2 )
+
+           +For user-space processes /sbin/init ( PID = 1 )
+
+    -All kernel processes are fork()ed from [kthreadd] and all user processes are fork()ed from /sbin/init or direct ancestor.
+
+    -Kernel processes are typically used to manage hardware, are directly handled by the kernel,have their own memory space, and have a high priority.
+
+    -They can be identified by the name enclosed in square brackets [] (using the -f option with ps). kthreadd spawned processes will have a PPID of 2.
+
+    -The kernel starts /sbin/init which is the parent/grandparent of all user processes.
+#### Commands
+ps -elf <-- static  option --forest
+**htop** <-- dynamic  
+sudo ls -l /proc/
+ps -elf | grep sshd
+ps --ppid 1 -lf | wc -l
+sudo lsof -c sshd
+
+
+
+### Ownership  
+-The effective user ID (euid), defines the access rights for a process. A second user ID, the real user ID   (ruid), indicates who initiated a process  
+  +A user is an entity that can run processes and own files  
+
+### System Calls  
+-fork() When a process calls fork(), the kernel creates a nearly identical copy of the process  
+-exec() When a process calls exec(program), the kernel starts program, replacing the current process  
+  
+### Signals   
+kill -9  
+kill {numbers 1-30 in fg send diff signals}  
+  
+### Orphans/Zombies
+-Orphan - Parent process exited, adopted by sbin/init with PPID of 1
+-All daemons are orphans
+  +disown -a && exit # Close a shell/terminal and force all children to be adopted
+-Zombie (defunct) - completed process, but still has an entry in the process table, waiting on parent to acknowledge or terminate
+**all daemons are orphans but not all orphans are daemons**
+**red teamers will make their process a daemon so it has a ppid of 1**
+
+### Jobs
+-‘jobs’ - Display List of Jobs running in the background
+
+-‘fg’ or ‘bg’ - Push / Pull jobs to / from the foreground / background
+
+-‘kill %<job number>’ - Terminate the process by job number
+
+-‘[ctrl -z]’ or ‘kill -19’ - stop / suspend the job
+
+-‘kill -9 <PID>’ or ‘pkill -9 <process name>’
+
+m h dom mon dow user command
+
+    -cron daemon checks the directories /var/spool/cron, /etc/cron.d and the file /etc/crontab, once a minute and executes any commands specified that match the time.
+
+    -Two types of cron jobs
+
+        +System cron jobs
+
+            +run as root and rigidly scheduled
+
+            +perform system-wide maintenance tasks (Cleaning out /tmp or rotating logs)
+
+            +controlled by /etc/crontab
+
+        -User cron jobs
+
+            
+            +Use 'crontab’ command to create user cron jobs
+
+            +stored in /var/spool/cron/crontabs/
+
+Cron Syntax
+
+* * * * * /directory/and/command
+| | | | |
+| | | | +---- Day of the Week   (range: 0-7, 1 = Monday)
+| | | +------ Month of the Year (range: 1-12)
+| | +-------- Day of the Month  (range: 1-31)
+| +---------- Hour              (range: 0-23)
++------------ Minute            (range: 0-59)
+
+
+### File descriptors
+
+# - The number in front of flag(s) is the file descriptor number used by the process associated with the file
+u - File open with Read and Write permission
+r - File open with Read permission
+w - File open with Write permission
+W - File open with Write permission and with Write Lock on entire file
+mem - Memory mapped file, usually for share library
 
 
 
@@ -421,48 +506,6 @@ PsInfo
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Unzip 1000 times
--
-$trial = (gci -recurse $PATH -filter *.zip | Sort-Object LastAccessTime -Descending | Select-Object -First 1)
-
-do {$trial |
-  ForEach-Object {
-  Expand-Archive $_.FullName -Force
-  $trial = (gci -recurse $PATH -filter *.zip | Sort-Object LastAccessTime -Descending | Select-Object -First 1)
- }
- }
- until($trial | Where-Object{$_.Name -eq 'Omega'})
-
-gci .\Omega1\Omega1.txt | Get-Content
-
-
-
-
-
-
-
+957
 
 
