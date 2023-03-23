@@ -493,6 +493,52 @@ w - File open with Write permission
 W - File open with Write permission and with Write Lock on entire file
 mem - Memory mapped file, usually for share library
 
+cat /lib/systemd/system/
+
+# Windows Logging
+-Getting user SID  
+get-wmiobject win32_useraccount | select name,sid (PowerShell)  
+Get-LocalUser | select Name,SID (PowerShell)  
+wmic useraccount get name,sid (CMD.EXE ONLY)  
+ 
+-**UserAssist** ~ tracks the GUI-based programs that were ran by a particular user  
+  +View executable Files run  
+Get-ItemProperty 'REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count'  
+
+  +View Shortcut files executed
+Get-ItemProperty 'REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}\Count'  
+
+-**Windows Background Activity Moderator (BAM)** ~ Controls activity of background applications
+Get-Itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*' (Windows 1709 & 1803)  
+Get-Itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*' (Windows 1809 and newer)  
+
+-**Recycle Bin** ~ very important, can help you accomplish a forensic investigation  
+gci 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select *  
+gci 'C:\$RECYCLE.BIN' -Recurse -Force   
+
+-**Prefetch** ~ Prefetch files are created by the windows operating system when an application is run from a specific location for the first time  
+  +gci -Path 'C:\Windows\Prefetch' -ErrorAction Continue | select * | select -first 5  
+
+-**Jump Lists** ~ 7-10 taskbar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily
+  +gci -Recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction Continue | select FullName, LastAccessTime
+
+-**Recent Files** ~ Registry Key that will track the last files and folders opened and is used to populate data in “Recent” menus of the Start menu
+  +gci 'REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs'
+
+-Convert File Hex to Unicode
+  +[System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+  
+-Convert all of a users values from HEX to Unicode
+  +Get-Item "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" | select -Expand property | ForEach-Object { [System.Text.Encoding]::Default.GetString((Get-ItemProperty -Path "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" -Name $_).$_)}
+
+-**Browser Artifacts** ~ Stores details for each user account
+-History will record the access to the file on the website that was accessed via a link.
+  +.\strings.exe 'C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default\History'
+  
+-Find FQDNs in Sqlite Text Files
+  +$History = (Get-Content 'C:\users\<username>\AppData\Local\Google\Chrome\User Data\Default\History') -replace   "[^a-zA-Z0-9\.\:\/]",""
+
+  +$History| Select-String -Pattern "(https|http):\/\/[a-zA-Z_0-9]+\.\w+[\.]?\w+" -AllMatches|foreach             {$_.Matches.Groups[0].Value}| ft
 
 
 
@@ -506,6 +552,9 @@ mem - Memory mapped file, usually for share library
 
 
 
-957
+
+
+
+
 
 
