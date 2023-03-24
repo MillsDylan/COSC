@@ -516,15 +516,25 @@ Get-Itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings
 gci 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select *  
 gci 'C:\$RECYCLE.BIN' -Recurse -Force   
 
+$R - Content of deleted files
+$I - original PATH and name
+
+
 - **Prefetch** ~ Prefetch files are created by the windows operating system when an application is run from a specific location for the first time  
   + gci -Path 'C:\Windows\Prefetch' -ErrorAction Continue | select * | select -first 5  
+.pf
 
 - **Jump Lists** ~ 7-10 taskbar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily
   + gci -Recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction Continue | select FullName, LastAccessTime
+-Location in explorer
+C:\%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations
 
 - **Recent Files** ~ Registry Key that will track the last files and folders opened and is used to populate data in “Recent” menus of the Start menu
   + gci 'REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs'
-
+-get the extensions
+  + Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.*' 
+    Hive: \HKEY_USERS\S-1-5-21-1584283910-3275287195-1754958050-1005\Software\Microsoft\Windows\CurrentVersion\Explorer\Recent
+    
 - Convert File Hex to Unicode
   + [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
   
@@ -539,6 +549,35 @@ gci 'C:\$RECYCLE.BIN' -Recurse -Force
   + $History = (Get-Content 'C:\users\<username>\AppData\Local\Google\Chrome\User Data\Default\History')           -replace   "[^a-zA-Z0-9\.\:\/]",""
 
   + $History| Select-String -Pattern "(https|http):\/\/[a-zA-Z_0-9]+\.\w+[\.]?\w+" -AllMatches|foreach             {$_.Matches.Groups[0].Value}| ft
+
+- Location
+  + C:\Users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\
+
+-DEMO
+  + .\strings.exe 'C:\users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\History' -accepteula
+  + strings.exe 'C:\users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\Top Sites'
+  + strings.exe  'C:\users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\Login Data'
+
+
+-**Event Logs**
+Get-EventLog -LogName System -Newest 10
+Get-EventLog -LogName System -Newest 3 | Format-Table -Wrap
+Get-Eventlog -LogName Security | ft -wrap
+Get-Eventlog -LogName Security | ft -wrap | findstr /i StR1nG 
+Get-Winevent -FilterHashtable @{logname='Security';id='4624'} | ft -Wrap
+(Get-WinEvent -Listlog *).count
+Get-WinEvent -Listlog *
+wevtutil gli security
+
+
+
+
+
+
+
+
+
+
 
 
 
