@@ -648,6 +648,24 @@ User space daemon - Reads messages written to /dev/log and formats and stores th
 .\strings.exe -accepteula c:\users\andy.dwyer\desktop\memory)analysis\1640.dmp > c:\users\andy.dwyer\desktop\memory)analysis\1640.txt
 
 
+# Active Directory 
+get-command -Module ActiveDirectory
+Get-addefaultdomainpasswordpolicy
+Get-ADForest
+Get-ADDomain
+Get-ADGroup -filter *
+Get-ADGroup -Identity 'IA Analysts Team'
+Get-ADGroupMember -Identity 'IA Analysts Team' -Recursive
+Get-ADUser -Filter 'Name -like "*"'
+Get-ADUser -Identity 'Nina.Webster' -Properties Description
+get-ADUser -filter {Enabled -eq "FALSE"} -properties name, enabled
+
+(Get-AdGroupMember -Identity 'domain admins').Name
+
+gpresult /user Administrator /v
+
+Search-ADAccount
+
 
 
 
