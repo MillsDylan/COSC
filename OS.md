@@ -606,9 +606,15 @@ Service : /usr/sbin/rsyslogd
 
 ### Commands
 dmesg ~ displays the last 5 lines of the kernel ring buffer   
+cat /etc/rsyslog.d/50-default.conf
 
 
-
+journalctl
+journalctl -e ~ last logs recieved
+journalctl --list-boots ~ get boot id's
+journalctl -b b3076f6774b841e08c19236bf327f529  ~ show only logs with this boot id
+journalctl -u ssh.service ~ filter on this service
+journalctl -u ssh.service --since "2 days ago"
 
 
    
@@ -617,6 +623,29 @@ dmesg ~ displays the last 5 lines of the kernel ring buffer
 User space daemon - Reads messages written to /dev/log and formats and stores them based on /etc/rsyslog.conf rules.  
   
 
+
+### Config file
+**/etc/rsyslog.conf**
+        - Log entries follow syslog standard facility.severity
+        - facility = what program, or part of system, log is from
+        - severity = urgency  
+/etc/logrotate.conf  
+
+
+
+# Memory analysis
+**use virustotal**
+
+
+.\volatility_2.6_win64_standalone.exe -f .\cridex.vmem -h
+.\volatility_2.6_win64_standalone.exe -f .\cridex.vmem imageinfo
+.\volatility_2.6_win64_standalone.exe -f .\cridex.vmem --profile=WinXPSP2x86 pslist
+...........psscan
+...........pstree
+...........procdump /// -p 1640 -D .
+...........memdump /// -p 1640 -D .
+...........consscan
+.\strings.exe -accepteula c:\users\andy.dwyer\desktop\memory)analysis\1640.dmp > c:\users\andy.dwyer\desktop\memory)analysis\1640.txt
 
 
 
