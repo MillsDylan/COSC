@@ -105,26 +105,42 @@ RTP (UDP any above 1023)
 
 
 
+# Cap
+sudo tcpdump -D
+sudo tcpdump -XXvv --hex and ascii and verbose {-w} some.pcap 
+sudo tcpdump -r some.pcap --read pcap
+sudo tcpdump port 80 || 22
 
 
+# BPF
+tcpdump {A} [B:C] {D} {E} {F} {G}
+
+        A = Protocol (ether | arp | ip | ip6 | icmp | tcp | udp)
+        B = Header Byte offset
+        C = optional: Byte Length. Can be 1, 2 or 4 (default 1)
+        D = optional: Bitwise mask (&)
+        E = Operator (= | == | > | < | <= | >= | != | () | << | >>)
+        F = Result of Expresion
+        G = optional: Logical Operator (&& ||) to bridge expressions
+
+Example:
+tcpdump 'ether[12:2] = 0x0800 && (tcp[2:2] != 22 && tcp[2:2] != 23)'
+
+Bitwise Masking
+    To filter down to the bit(s) and not just the byte.
+ip[0] & 0x0F > 0x05
+
+sudo tcpdump 'ip[8] <= 64 || ip6[7] <= 64' -r /home/activity_resources/pcaps/BPFCheck.pcap | wc -l
 
 
- 
+# Network Programming
+socket.socket([*family*[,*type*[*proto*]]])
 
+    family constants should be: AF_INET (default), AF_INET6, AF_UNIX
 
+    type constants should be: SOCK_STREAM (default), SOCK_DGRAM, SOCK_RAW
 
-
-
-
-
-
-
-
-
-
-
-
-
+    proto constants should be: 0 (default), IPPROTO_RAW
 
 
 
