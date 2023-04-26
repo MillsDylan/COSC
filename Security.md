@@ -14,7 +14,7 @@ Win.Ops: 10.50.29.185
 ssh student@10.50.28.189 -D 9050
 ssh student@10.50.28.189 -L1111:192.168.28.111:8080
 
-ssh -MS /tmp/jump student@10.50.29.189 
+ssh -MS /tmp/jump student@10.50.28.189 
 ssh -S /tmp/jump dummy
 ssh -S /tmp/jump dummy -O forward -D 9050 dummy  --- DYNO port 
 ssh -S /tmp/jump dummy -O cancel -D 9050 dummy  --- DYNO port 
@@ -29,7 +29,7 @@ ssh -MS /tmp/T1 student@127.0.0.1 -p3333
 
 ## NMAP scanning
 HOST DISCOVERY: 
-    for i in {1..254}; do (ping -c 1 192.168.28.$i) | grep "bytes from" &);done
+    for i in {1..254}; do (ping -c 1 192.168.28.$i | grep "bytes from" &); done
     
  ///NMAP scripts --
     --script http-enum.nse
