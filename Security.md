@@ -12,6 +12,10 @@ Lin.internet: 10.50.28.189
 Lin.Ops: 10.50.25.1
 Win.Ops: 10.50.29.185
 
+
+
+
+
 ## SSH
 ssh student@10.50.28.189 -D 9050
 ssh student@10.50.28.189 -L1111:192.168.28.111:8080
@@ -46,7 +50,7 @@ PORT INTERIGATION:
 
 
 
-
+YourTempPassword
 
 
 
