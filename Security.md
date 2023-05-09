@@ -13,6 +13,14 @@ Lin.Ops: 10.50.25.1
 Win.Ops: 10.50.29.185
 
 
+# SSH EXAMP
+## ssh to remote machine
+	 ssh -MS /tmp/jump student@10.50.28.189                          --multisocket to jump
+	 ssh -S /tmp/jump -O forward -L10111:192.168.28.120:4242 DUMB    --forward to pivot
+	 ssh -MS /tmp/T1 student@127.0.0.1 -p10111                       --multisocket/conn. to Pivot
+	 ssh -S /tmp/T1 -O forward -D 9050 dummy                         --Dyno on Pivot
+sudo proxychains nmap -Pn -T4 -sT -p1-10000 192.168.150.245 2>/dev/null  --find ports
+	 ssh -S /tmp/T1 -O forward -L10112:192.168.150.245:9999
 
 
 
@@ -331,6 +339,12 @@ change to new eip
 scp the executable to the our machine.
 
 
+# PRIV ESC, PERSIST, COVER TRACKS
+schtasks /query /fo LIST /v | Select-String -Pattern "Task To Run" -CaseSensitive |Select-String -Pattern "COM   handler" -NotMatch
+
+sigcheck C:\Users\student\exercise_2\putty.exe      --- check execution level, -- check version numbers
+
+icacls   C:\Users\student\exercise_2\putty.exe      --- checks if directory can be written too
 
 
 
